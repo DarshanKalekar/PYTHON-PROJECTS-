@@ -1,0 +1,110 @@
+class Book:
+    def __init__(self, book_id, title, author, copies):
+        self.book_id = book_id
+        self.title = title
+        self.author = author
+        self.copies = copies
+
+    def display(self):
+        print(f"ID: {self.book_id} | Title: {self.title} | "
+              f"Author: {self.author} | Available: {self.copies}")
+
+
+class LibraryManagementSystem:
+    def __init__(self):
+        self.books = {}
+
+    def add_book(self):
+        book_id = input("Enter Book ID: ")
+        if book_id in self.books:
+            print("Book ID already exists!")
+            return
+
+        title = input("Enter Book Title: ")
+        author = input("Enter Author Name: ")
+        copies = int(input("Enter Number of Copies: "))
+
+        self.books[book_id] = Book(book_id, title, author, copies)
+        print("Book added successfully!")
+
+    def view_books(self):
+        if not self.books:
+            print("No books available in library.")
+            return
+
+        print("\n--- Library Books ---")
+        for book in self.books.values():
+            book.display()
+
+    def search_book(self):
+        book_id = input("Enter Book ID to search: ")
+        book = self.books.get(book_id)
+        if book:
+            book.display()
+        else:
+            print("Book not found.")
+
+    def issue_book(self):
+        book_id = input("Enter Book ID to issue: ")
+        if book_id in self.books:
+            if self.books[book_id].copies > 0:
+                self.books[book_id].copies -= 1
+                print("Book issued successfully!")
+            else:
+                print("No copies available!")
+        else:
+            print("Book not found.")
+
+    def return_book(self):
+        book_id = input("Enter Book ID to return: ")
+        if book_id in self.books:
+            self.books[book_id].copies += 1
+            print("Book returned successfully!")
+        else:
+            print("Book not found.")
+
+    def delete_book(self):
+        book_id = input("Enter Book ID to delete: ")
+        if book_id in self.books:
+            del self.books[book_id]
+            print("Book deleted successfully.")
+        else:
+            print("Book not found.")
+
+
+def main():
+    library = LibraryManagementSystem()
+
+    while True:
+        print("\n===== Library Management System =====")
+        print("1. Add Book")
+        print("2. View Books")
+        print("3. Search Book")
+        print("4. Issue Book")
+        print("5. Return Book")
+        print("6. Delete Book")
+        print("7. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            library.add_book()
+        elif choice == "2":
+            library.view_books()
+        elif choice == "3":
+            library.search_book()
+        elif choice == "4":
+            library.issue_book()
+        elif choice == "5":
+            library.return_book()
+        elif choice == "6":
+            library.delete_book()
+        elif choice == "7":
+            print("Thank you for using Library Management System!")
+            break
+        else:
+            print("Invalid choice! Try again.")
+
+
+if __name__ == "__main__":
+    main()
